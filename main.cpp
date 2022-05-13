@@ -8,6 +8,13 @@ const uint stoneRadius = 15;
 // This -1 is because Go is played on the tile corners, rather than the insides
 const uint screenSize = (boardSize - 1) * tileSize + 2 * paddingAmount;
 
+enum class Stone {
+  Black, White, None
+};
+
+Stone currentPlayer = Stone::Black;
+std::vector<std::vector<Stone>> board(boardSize, std::vector<Stone>(boardSize, Stone::None));
+
 struct BoardCoordinates {
   uint x;
   uint y;
@@ -51,8 +58,28 @@ void UpdateDrawFrame() {
     DrawLine(paddingAmount, linePosition, screenSize - paddingAmount, linePosition, BLACK);
   }
 
-  BoardCoordinates center = BoardCoordinates::fromScreenXY(GetMousePosition());
-  DrawCircleLines(paddingAmount + tileSize * center.x, paddingAmount + tileSize * center.y, stoneRadius, RED);
+  for (uint i = 0; i < boardSize; i++) {
+    for (uint j = 0; j < boardSize; j++) {
+      if (board[i][j] == Stone::None) continue;
+
+      Color color = (board[i][j] == Stone::White) ? RAYWHITE : BLACK;
+      DrawCircle(paddingAmount + tileSize * i, paddingAmount + tileSize * j, stoneRadius, color);
+    }
+  }
+
+  BoardCoordinates currentPosition = BoardCoordinates::fromScreenXY(GetMousePosition());
+  DrawCircleLines(paddingAmount + tileSize * currentPosition.x,
+                  paddingAmount + tileSize * currentPosition.y,
+                  stoneRadius,
+                  RED);
+
+  if (IsMouseButtonPressed(MouseButton::MOUSE_BUTTON_LEFT)) {
+    if (board[currentPosition.x][currentPosition.y] == Stone::None) {
+      board[currentPosition.x][currentPosition.y] = currentPlayer;
+
+      currentPlayer = (currentPlayer == Stone::Black) ? Stone::White : Stone::Black;
+    }
+  }
 
   EndDrawing();
 }
