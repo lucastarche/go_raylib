@@ -26,7 +26,7 @@ if (NOT raylib_cpp_FOUND)
 endif ()
 
 # This is the main part:
-set(SOURCES main.cpp src/BoardCoordinates.cpp src/BoardCoordinates.h src/Constants.h)
+set(SOURCES main.cpp src/BoardCoordinates.cpp src/BoardCoordinates.h src/Constants.h src/Board.cpp src/Board.h)
 add_executable(${PROJECT_NAME} ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)

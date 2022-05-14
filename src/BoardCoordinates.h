@@ -8,4 +8,3 @@ struct BoardCoordinates {
   BoardCoordinates(int x, int y);
   static BoardCoordinates fromScreenPos(Vector2 pos);
 };
-

@@ -12,3 +12,7 @@ static_assert(boardSize > 0);
 static_assert(paddingAmount >= 0);
 static_assert(tileSize > 0);
 static_assert(stoneRadius > 0);
+
+enum class Stone {
+  Black, White, None
+};

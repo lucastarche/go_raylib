@@ -1,18 +1,13 @@
 #include "raylib-cpp.hpp"
 #include "src/Constants.h"
 #include "src/BoardCoordinates.h"
+#include "src/Board.h"
 
-enum class Stone {
-  Black, White, None
-};
-
-Stone currentPlayer = Stone::Black;
-std::vector<std::vector<Stone>> board;
+Board board;
 
 void UpdateDrawFrame();
 
 int main() {
-  board = std::vector(screenSize, std::vector(screenSize, Stone::None));
   raylib::Window window(screenSize, screenSize, "go but in raylib");
 
   SetTargetFPS(60);
@@ -38,9 +33,10 @@ void UpdateDrawFrame() {
 
   for (int i = 0; i < boardSize; i++) {
     for (int j = 0; j < boardSize; j++) {
-      if (board[i][j] == Stone::None) continue;
+      Stone stone = board.getStoneAt(i, j);
+      if (stone == Stone::None) continue;
 
-      Color color = (board[i][j] == Stone::White) ? RAYWHITE : BLACK;
+      Color color = (stone == Stone::White) ? RAYWHITE : BLACK;
       DrawCircle(paddingAmount + tileSize * i, paddingAmount + tileSize * j, stoneRadius, color);
     }
   }
@@ -52,11 +48,7 @@ void UpdateDrawFrame() {
                   RED);
 
   if (IsMouseButtonPressed(MouseButton::MOUSE_BUTTON_LEFT)) {
-    if (board[currentPosition.x][currentPosition.y] == Stone::None) {
-      board[currentPosition.x][currentPosition.y] = currentPlayer;
-
-      currentPlayer = (currentPlayer == Stone::Black) ? Stone::White : Stone::Black;
-    }
+    board.placeStone(currentPosition);
   }
 
   EndDrawing();
