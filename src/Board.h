@@ -19,7 +19,7 @@ class Board {
   Stone getStoneAt(BoardCoordinates coordinates);
   Stone getStoneAt(int x, int y);
 
-  int countLiberties(BoardCoordinates coordinates, Stone player);
+  int countLiberties(BoardCoordinates coordinates);
   int countLibertiesAndGetComponent(vector<vector<bool>> &visited,
                                     vector<BoardCoordinates> &component,
                                     BoardCoordinates coordinates);

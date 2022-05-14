@@ -8,10 +8,16 @@ Board::Board() {
 
 void Board::placeStone(BoardCoordinates coordinates) {
   if (getStoneAt(coordinates) != Stone::None) return;
-  if (countLiberties(coordinates, currentPlayer) == 0) return;
 
+  auto previousState = board;
   board[coordinates.x][coordinates.y] = currentPlayer;
-  togglePlayer();
+  removeStonesWithNoLiberties();
+
+  if (countLiberties(coordinates) == 0) {
+    board = previousState;
+  } else {
+    togglePlayer();
+  }
 }
 
 void Board::removeStone(BoardCoordinates coordinates) {
@@ -33,7 +39,7 @@ Stone Board::getStoneAt(int x, int y) {
   return board[x][y];
 }
 
-int Board::countLiberties(BoardCoordinates coordinates, Stone player) {
+int Board::countLiberties(BoardCoordinates coordinates) {
   int liberties = 0;
 
   static const int dx[] = {-1, 1, 0, 0};
@@ -53,7 +59,7 @@ int Board::countLiberties(BoardCoordinates coordinates, Stone player) {
       if (x < 0 || y < 0 || x >= boardSize || y >= boardSize) continue;
       if (getStoneAt(x, y) == Stone::None) {
         liberties++;
-      } else if (getStoneAt(x, y) == player) {
+      } else if (getStoneAt(x, y) == getStoneAt(coordinates)) {
         curr.push(BoardCoordinates(x, y));
       }
     }
