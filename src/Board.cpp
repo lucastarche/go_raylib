@@ -40,6 +40,10 @@ Stone Board::getStoneAt(int x, int y) {
   return board[x][y];
 }
 
+Stone Board::getCurrentPlayer() {
+  return currentPlayer;
+}
+
 int Board::countLiberties(BoardCoordinates coordinates) {
   int liberties = 0;
 

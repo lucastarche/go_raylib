@@ -1,13 +1,19 @@
 #include "raylib-cpp.hpp"
+
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+
 #include "src/Constants.h"
 #include "src/BoardCoordinates.h"
 #include "src/Board.h"
 
 Board board;
+bool isPlaying;
 
 void UpdateDrawFrame();
 
 int main() {
+  isPlaying = true;
   raylib::Window window(screenSize, screenSize, "go but in raylib");
 
   SetTargetFPS(60);
@@ -21,6 +27,10 @@ int main() {
 
 void UpdateDrawFrame() {
   BeginDrawing();
+  if (!isPlaying) {
+    EndDrawing();
+    return;
+  }
 
   ClearBackground(LIGHTGRAY);
 
@@ -47,7 +57,19 @@ void UpdateDrawFrame() {
                   stoneRadius,
                   RED);
 
-  if (IsMouseButtonPressed(MouseButton::MOUSE_BUTTON_LEFT)) {
+  if (GuiButton({screenSize / 2 - 100, screenSize - paddingAmount + 5, 200, paddingAmount - 10},
+                "Forfeit")) {
+    isPlaying = false;
+    DrawRectangle(100, 100, screenSize - 200, screenSize - 200, RAYWHITE);
+    DrawRectangleLines(100, 100, screenSize - 200, screenSize - 200, BLUE);
+
+    if (board.getCurrentPlayer() == Stone::Black) {
+      DrawText("White wins!", (screenSize - 220) / 2, (screenSize - 220) / 2, 40, BLACK);
+    } else {
+      DrawText("Black wins!", (screenSize - 220) / 2, (screenSize - 220) / 2, 40, BLACK);
+    }
+
+  } else if (IsMouseButtonReleased(MouseButton::MOUSE_BUTTON_LEFT)) {
     board.placeStone(currentPosition);
   }
 

@@ -15,16 +15,16 @@ class Board {
 
   void togglePlayer();
   void removeStone(BoardCoordinates coordinates);
+  int countLiberties(BoardCoordinates coordinates);
+  int countLibertiesAndGetComponent(array<array<bool, boardSize>, boardSize> &visited,
+                                    vector<BoardCoordinates> &component,
+                                    BoardCoordinates coordinates);
+  void removeStonesWithNoLiberties();
 
  public:
   Board();
   void placeStone(BoardCoordinates coordinates);
   Stone getStoneAt(BoardCoordinates coordinates);
   Stone getStoneAt(int x, int y);
-
-  int countLiberties(BoardCoordinates coordinates);
-  int countLibertiesAndGetComponent(array<array<bool, boardSize>, boardSize> &visited,
-                                    vector<BoardCoordinates> &component,
-                                    BoardCoordinates coordinates);
-  void removeStonesWithNoLiberties();
+  Stone getCurrentPlayer();
 };
