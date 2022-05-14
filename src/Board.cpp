@@ -13,9 +13,10 @@ void Board::placeStone(BoardCoordinates coordinates) {
   board[coordinates.x][coordinates.y] = currentPlayer;
   removeStonesWithNoLiberties();
 
-  if (countLiberties(coordinates) == 0) {
+  if (countLiberties(coordinates) == 0 || board == koBoard) {
     board = previousState;
   } else {
+    koBoard = previousState;
     togglePlayer();
   }
 }
@@ -116,7 +117,7 @@ void Board::removeStonesWithNoLiberties() {
 
   for (int i = 0; i < boardSize; i++) {
     for (int j = 0; j < boardSize; j++) {
-      if (visited[i][j]) continue;
+      if (visited[i][j] || getStoneAt(i, j) == currentPlayer) continue;
       vector<BoardCoordinates> component;
       int liberties = countLibertiesAndGetComponent(visited, component, BoardCoordinates(i, j));
       if (liberties > 0) continue;

@@ -11,6 +11,7 @@ class Board {
  private:
   Stone currentPlayer;
   array<array<Stone, boardSize>, boardSize> board{};
+  array<array<Stone, boardSize>, boardSize> koBoard{};
 
   void togglePlayer();
   void removeStone(BoardCoordinates coordinates);
