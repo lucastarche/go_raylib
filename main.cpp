@@ -49,6 +49,7 @@ void UpdateDrawFrame() {
 
   if (IsMouseButtonPressed(MouseButton::MOUSE_BUTTON_LEFT)) {
     board.placeStone(currentPosition);
+    board.removeStonesWithNoLiberties();
   }
 
   EndDrawing();
