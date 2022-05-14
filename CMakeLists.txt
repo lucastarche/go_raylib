@@ -11,7 +11,7 @@ if (NOT raylib_FOUND)
             GIT_TAG 4.0.0
     )
     FetchContent_MakeAvailable(raylib)
-endif()
+endif ()
 
 # raylib-cpp
 find_package(raylib_cpp QUIET)
@@ -23,10 +23,10 @@ if (NOT raylib_cpp_FOUND)
             GIT_TAG v4.2.1
     )
     FetchContent_MakeAvailable(raylib_cpp)
-endif()
+endif ()
 
 # This is the main part:
-set(SOURCES main.cpp)
+set(SOURCES main.cpp src/BoardCoordinates.cpp src/BoardCoordinates.h src/Constants.h)
 add_executable(${PROJECT_NAME} ${SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 target_link_libraries(${PROJECT_NAME} PUBLIC raylib raylib_cpp)
