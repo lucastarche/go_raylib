@@ -1,14 +1,16 @@
 #pragma once
 #include "Constants.h"
 #include "BoardCoordinates.h"
+#include <array>
 #include <vector>
 
+using std::array;
 using std::vector;
 
 class Board {
  private:
   Stone currentPlayer;
-  vector<vector<Stone>> board;
+  array<array<Stone, boardSize>, boardSize> board{};
 
   void togglePlayer();
   void removeStone(BoardCoordinates coordinates);
@@ -20,7 +22,7 @@ class Board {
   Stone getStoneAt(int x, int y);
 
   int countLiberties(BoardCoordinates coordinates);
-  int countLibertiesAndGetComponent(vector<vector<bool>> &visited,
+  int countLibertiesAndGetComponent(array<array<bool, boardSize>, boardSize> &visited,
                                     vector<BoardCoordinates> &component,
                                     BoardCoordinates coordinates);
   void removeStonesWithNoLiberties();

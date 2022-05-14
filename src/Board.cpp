@@ -1,9 +1,9 @@
 #include "Board.h"
 #include <stack>
+#include <array>
 
 Board::Board() {
   currentPlayer = Stone::Black;
-  board = vector(boardSize, vector(boardSize, Stone::None));
 }
 
 void Board::placeStone(BoardCoordinates coordinates) {
@@ -45,7 +45,13 @@ int Board::countLiberties(BoardCoordinates coordinates) {
   static const int dx[] = {-1, 1, 0, 0};
   static const int dy[] = {0, 0, 1, -1};
 
-  vector<vector<bool>> visited(boardSize, vector(boardSize, false));
+  array<array<bool, boardSize>, boardSize> visited{};
+  for (auto &a : visited) {
+    for (auto &b : a) {
+      b = false;
+    }
+  }
+
   std::stack<BoardCoordinates> curr;
   curr.push(coordinates);
   while (!curr.empty()) {
@@ -68,7 +74,7 @@ int Board::countLiberties(BoardCoordinates coordinates) {
   return liberties;
 }
 
-int Board::countLibertiesAndGetComponent(vector<vector<bool>> &visited,
+int Board::countLibertiesAndGetComponent(array<array<bool, boardSize>, boardSize> &visited,
                                          vector<BoardCoordinates> &component,
                                          BoardCoordinates coordinates) {
   int liberties = 0;
@@ -101,7 +107,13 @@ int Board::countLibertiesAndGetComponent(vector<vector<bool>> &visited,
 }
 
 void Board::removeStonesWithNoLiberties() {
-  vector<vector<bool>> visited(boardSize, vector(boardSize, false));
+  array<array<bool, boardSize>, boardSize> visited{};
+  for (auto &a : visited) {
+    for (auto &b : a) {
+      b = false;
+    }
+  }
+
   for (int i = 0; i < boardSize; i++) {
     for (int j = 0; j < boardSize; j++) {
       if (visited[i][j]) continue;
